@@ -177,7 +177,78 @@ const tooltipDescriptions={title:'Name your song; used in project exports and th
 function addTip(container,message){if(!container||container.querySelector('.tooltip-btn'))return;let b=document.createElement('button');b.type='button';b.className='tooltip-btn';b.textContent='?';b.setAttribute('aria-label','Help: '+message);b.dataset.tip=message;container.appendChild(b)}
 document.querySelectorAll('[data-k]').forEach(e=>{let label=e.closest('.field')?.querySelector('label');addTip(label,tooltipDescriptions[e.dataset.k]||'Adjust this setting to shape the output. The preview updates automatically.')});
 document.querySelectorAll('.mode-selector label').forEach(e=>addTip(e,{normal:'Primary genre and its subgenre.',holiday:'Pick a holiday and a musical genre plus subgenre.',multiple:'Blend primary and secondary genres, each with its own subgenre.'}[e.querySelector('input').value]));
-const actions={save:'Store your current settings in this browser.',load:'Restore settings saved in this browser.',export:'Download project configuration and generated prompts as JSON.',import:'Load a previously exported JSON project.',template:'Create editable lyric section placeholders based on your arrangement.',clearLyrics:'Erase the lyrics editor after confirmation.',allCopy:'Copy the full production brief.',suno:'Open Suno Create in another tab.',api:'Open Suno API information in another tab.'};for(const [id,tip] of Object.entries(actions)){let el=document.getElementById(id);if(el){el.title=tip;el.setAttribute('aria-label',(el.textContent.trim()||id)+'. '+tip)}}
+const actions={surpriseTechniques:'Select exactly three random lyric-writing techniques, replacing the current selection.',surpriseInstruments:'Choose five random instruments, replacing the current selection.',clearInstruments:'Remove all optional instrument selections.',save:'Store your current settings in this browser.',load:'Restore settings saved in this browser.',export:'Download project configuration and generated prompts as JSON.',import:'Load a previously exported JSON project.',template:'Create editable lyric section placeholders based on your arrangement.',clearLyrics:'Erase the lyrics editor after confirmation.',allCopy:'Copy the full production brief.',suno:'Open Suno Create in another tab.',api:'Open Suno API information in another tab.'};for(const [id,tip] of Object.entries(actions)){let el=document.getElementById(id);if(el){el.title=tip;el.setAttribute('aria-label',(el.textContent.trim()||id)+'. '+tip)}}
 for(const e of document.querySelectorAll('[data-copy],[data-preset],[data-tab]'))e.title=e.hasAttribute('data-copy')?'Copy this output to your clipboard.':e.hasAttribute('data-preset')?'Load an example song setup.':'Switch between generated output views.';
-let pop=document.createElement('div');pop.className='tip-pop hidden';pop.setAttribute('role','tooltip');document.body.append(pop);function placeTip(el){let r=el.getBoundingClientRect();pop.textContent=el.dataset.tip;pop.classList.remove('hidden');let x=Math.max(10,Math.min(r.left,innerWidth-pop.offsetWidth-10));let y=r.bottom+7;if(y+pop.offsetHeight>innerHeight)y=Math.max(10,r.top-pop.offsetHeight-7);pop.style.left=x+'px';pop.style.top=y+'px'}document.addEventListener('pointerover',e=>{let b=e.target.closest?.('.tooltip-btn');if(b)placeTip(b)});document.addEventListener('pointerout',e=>{if(e.target.closest?.('.tooltip-btn'))pop.classList.add('hidden')});document.addEventListener('focusin',e=>{if(e.target.matches('.tooltip-btn'))placeTip(e.target)});document.addEventListener('focusout',e=>{if(e.target.matches('.tooltip-btn'))pop.classList.add('hidden')});document.addEventListener('click',e=>{if(e.target.matches('.tooltip-btn')){e.preventDefault();pop.classList.contains('hidden')?placeTip(e.target):pop.classList.add('hidden')}});
+
+const techniqueHelp=[
+  'Rhymes inside a single lyric line, adding rhythmic momentum.',
+  'Rhymes that match across multiple syllables for intricate flow.',
+  'Imperfect rhymes with similar sounds; useful for natural phrasing.',
+  'Words that almost rhyme, giving lyrics flexibility and realism.',
+  'Rhyming words at the ends of lines to reinforce a pattern.',
+  'Repeating initial consonant sounds to make phrases memorable.',
+  'Repeating vowel sounds to create subtle sonic connections.',
+  'Repeating consonant sounds within or at the ends of words.',
+  'Describing one thing as another to suggest meaning without saying it directly.',
+  'Sustaining one central comparison across several lines or sections.',
+  'Making an explicit comparison using like or as.',
+  'Giving objects, places or ideas human actions or feelings.',
+  'Using vivid sensory details to make a scene feel tangible.',
+  'Using an object or image to represent a larger idea.',
+  'Writing phrases with two meanings, often one playful or suggestive.',
+  'Using puns, surprising phrasing or multiple meanings.',
+  'Repeating a word or phrase at the beginnings of successive lines.',
+  'Repeating key words or phrases to strengthen the hook.',
+  'Carrying a thought past the end of a line for a conversational flow.',
+  'Using sound-imitating words, such as bang, buzz or crack.',
+  'Repeating grammatical structures to create rhythm and emphasis.',
+  'Placing contrasting ideas or images side by side.',
+  'Adding specific actions, places and details that advance the narrative.',
+  'Planting subtle clues that hint at a later turn in the story.',
+  'Writing a phrase answered by another voice, crowd or instrument.',
+  'Ending lines with an unexpected, sharp or humorous payoff.'
+];
+const extraHelp={
+  surpriseTechniques:'Replace the current technique selections with exactly three different techniques chosen at random. Click again for another combination.',
+  surpriseInstruments:'Replace the current instrument selections with five different instruments chosen at random.',
+  clearInstruments:'Uncheck all instruments in the optional instrument picker.',
+  instrumentSearch:'Filter the 100 available instruments by name; filtering does not change which ones are selected.',
+  instrumentCount:'Shows how many optional instruments are selected out of the maximum five.',
+  styleOut:'Generated Suno Style of Music prompt. Read or copy this text into Suno Custom Mode.',
+  lyricsOut:'Instructions for an external language model to write complete original lyrics, including an estimated duration.',
+  excludeOut:'Musical elements to avoid; copy these into Suno’s Exclude field.',
+  briefOut:'Complete project brief combining the concept, style, lyric instructions and exclusions.',
+  lyricInstructions:'Add specific narrative beats, desired phrases or constraints for the lyric-writing model.',
+  import:'Choose a previously exported project JSON file to restore its settings.'
+};
+document.querySelectorAll('[data-k]').forEach(el=>{
+  const help=tooltipDescriptions[el.dataset.k];
+  if(help){el.dataset.tip=help;el.title=help;}
+});
+document.querySelectorAll('input[data-k^="tech_"]').forEach(el=>{
+  const i=Number(el.dataset.k.slice(5));
+  const label=el.closest('label');
+  const tip=techniqueHelp[i];
+  if(label&&tip){label.dataset.tip=tip;label.title=tip;el.dataset.tip=tip;el.title=tip;}
+});
+document.querySelectorAll('#instrumentChoices label').forEach(label=>{
+  const name=label.dataset.search||label.textContent.trim();
+  const tip='Include '+name+' as an additional instrumental color in the generated Suno style prompt. Select up to five.';
+  label.dataset.tip=tip;label.title=tip;
+  const input=label.querySelector('input');
+  if(input){input.dataset.tip=tip;input.title=tip;}
+});
+document.querySelectorAll('.mode-selector label').forEach(label=>{
+  const tip=label.querySelector('.tooltip-btn')?.dataset.tip;
+  if(tip){label.dataset.tip=tip;label.title=tip;}
+});
+document.querySelectorAll('button:not(.tooltip-btn), input:not([data-k]), textarea:not([data-k]), #instrumentCount').forEach(el=>{
+  const tip=extraHelp[el.id]||el.title;
+  if(tip){el.dataset.tip=tip;el.title=tip;}
+});
+document.querySelectorAll('label.btn').forEach(label=>{
+  const tip=extraHelp.import;
+  label.dataset.tip=tip;label.title=tip;
+});
+let pop=document.createElement('div');pop.className='tip-pop hidden';pop.setAttribute('role','tooltip');document.body.append(pop);function placeTip(el){let r=el.getBoundingClientRect();pop.textContent=el.dataset.tip;pop.classList.remove('hidden');let x=Math.max(10,Math.min(r.left,innerWidth-pop.offsetWidth-10));let y=r.bottom+7;if(y+pop.offsetHeight>innerHeight)y=Math.max(10,r.top-pop.offsetHeight-7);pop.style.left=x+'px';pop.style.top=y+'px'}document.addEventListener('pointerover',e=>{const el=e.target.closest?.('[data-tip]');if(el)placeTip(el)});document.addEventListener('pointerout',e=>{const el=e.target.closest?.('[data-tip]');if(el&&!el.contains(e.relatedTarget))pop.classList.add('hidden')});document.addEventListener('focusin',e=>{const el=e.target.closest?.('[data-tip]');if(el)placeTip(el)});document.addEventListener('focusout',e=>{const el=e.target.closest?.('[data-tip]');if(el&&!el.contains(e.relatedTarget))pop.classList.add('hidden')});document.addEventListener('click',e=>{if(e.target.matches('.tooltip-btn')){e.preventDefault();pop.classList.contains('hidden')?placeTip(e.target):pop.classList.add('hidden')}});
 </script></body></html>

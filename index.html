@@ -93,7 +93,7 @@ $('#surpriseTechniques').addEventListener('click',()=>{
     [ids[i],ids[j]]=[ids[j],ids[i]];
   }
   const selected=new Set(ids.slice(0,3));
-  $('input[data-k^="tech_"]').forEach(el=>{
+  $$('input[data-k^="tech_"]').forEach(el=>{
     el.checked=selected.has(Number(el.dataset.k.slice(5)));
   });
   update();

@@ -271,7 +271,7 @@ function resetToBlank(){
   set(fields);
 }
 const initialPresetState=get();
-$('[data-preset]').forEach(b=>b.onclick=()=>{
+$$('[data-preset]').forEach(b=>b.onclick=()=>{
   if(b.dataset.preset==='blank')resetToBlank();
   else set({...initialPresetState,genreMode:'normal',...presets[b.dataset.preset]});
   notify('Preset loaded');

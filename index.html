@@ -176,6 +176,7 @@ function get(){let o={};$$('[data-k]').forEach(n=>o[n.dataset.k]=n.type==='check
 // Genre conventions guide the prompts without replacing explicit user choices.
 const GENRE_CONVENTIONS=[
 {test:/opera|operatic|classical crossover/i,style:"Orchestral dynamics, sustained legato, dramatic cadences",lyrics:"Use heightened dramatic stakes, lyrical diction, and aria-like emotional development."},
+{test:/classical|chamber music|baroque/i,style:"Acoustic ensemble balance, formal phrasing, clear melodic development",lyrics:"If lyrics are requested, use measured poetic diction and phrasing suited to the selected classical form."},
 {test:/broadway|musical theater|musical theatre/i,style:"Theatrical builds, character-led changes, clear dramatic phrasing",lyrics:"Advance plot and character through lyrics; use theatrical turns and distinct character voices."},
 {test:/country|honky.tonk|americana|bluegrass|western swing|hick.hop/i,style:"Narrative verses, acoustic or twang textures, grounded melodic hook",lyrics:"Favor conversational language, specific places and actions, earned emotion, and a memorable refrain."},
 {test:/hip.hop|rap|trap|drill|boom.bap|g.funk|crunk|horrorcore/i,style:"Beat-led pocket, rhythmic vocal cadence, punchy recurring hook",lyrics:"Prioritize flow, internal rhyme, bar-to-bar variation, vivid specificity, and rhythmically placed hooks."},

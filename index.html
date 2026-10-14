@@ -238,6 +238,24 @@ document.querySelectorAll('#instrumentChoices label').forEach(label=>{
   const input=label.querySelector('input');
   if(input){input.dataset.tip=tip;input.title=tip;}
 });
+
+// Make help discoverable: show a visible, keyboard-focusable ? beside every
+// lyric-writing technique and instrument rather than relying on native titles.
+document.querySelectorAll('input[data-k^="tech_"], #instrumentChoices input').forEach(input=>{
+  const label=input.closest('label');
+  const tip=label?.dataset.tip;
+  if(!label||!tip||label.querySelector('.tooltip-btn'))return;
+  const help=document.createElement('button');
+  help.type='button';
+  help.className='tooltip-btn';
+  help.textContent='?';
+  help.dataset.tip=tip;
+  help.setAttribute('aria-label','Explain '+label.textContent.trim()+': '+tip);
+  help.title=tip;
+  help.addEventListener('pointerdown',e=>e.stopPropagation());
+  help.addEventListener('click',e=>e.stopPropagation());
+  label.append(help);
+});
 document.querySelectorAll('.mode-selector label').forEach(label=>{
   const tip=label.querySelector('.tooltip-btn')?.dataset.tip;
   if(tip){label.dataset.tip=tip;label.title=tip;}
@@ -250,5 +268,5 @@ document.querySelectorAll('label.btn').forEach(label=>{
   const tip=extraHelp.import;
   label.dataset.tip=tip;label.title=tip;
 });
-let pop=document.createElement('div');pop.className='tip-pop hidden';pop.setAttribute('role','tooltip');document.body.append(pop);function placeTip(el){let r=el.getBoundingClientRect();pop.textContent=el.dataset.tip;pop.classList.remove('hidden');let x=Math.max(10,Math.min(r.left,innerWidth-pop.offsetWidth-10));let y=r.bottom+7;if(y+pop.offsetHeight>innerHeight)y=Math.max(10,r.top-pop.offsetHeight-7);pop.style.left=x+'px';pop.style.top=y+'px'}document.addEventListener('pointerover',e=>{const el=e.target.closest?.('[data-tip]');if(el)placeTip(el)});document.addEventListener('pointerout',e=>{const el=e.target.closest?.('[data-tip]');if(el&&!el.contains(e.relatedTarget))pop.classList.add('hidden')});document.addEventListener('focusin',e=>{const el=e.target.closest?.('[data-tip]');if(el)placeTip(el)});document.addEventListener('focusout',e=>{const el=e.target.closest?.('[data-tip]');if(el&&!el.contains(e.relatedTarget))pop.classList.add('hidden')});document.addEventListener('click',e=>{if(e.target.matches('.tooltip-btn')){e.preventDefault();pop.classList.contains('hidden')?placeTip(e.target):pop.classList.add('hidden')}});
+let pop=document.createElement('div');pop.className='tip-pop hidden';pop.setAttribute('role','tooltip');document.body.append(pop);function placeTip(el){let r=el.getBoundingClientRect();pop.textContent=el.dataset.tip;pop.classList.remove('hidden');let x=Math.max(10,Math.min(r.left,innerWidth-pop.offsetWidth-10));let y=r.bottom+7;if(y+pop.offsetHeight>innerHeight)y=Math.max(10,r.top-pop.offsetHeight-7);pop.style.left=x+'px';pop.style.top=y+'px'}document.addEventListener('pointerover',e=>{const el=e.target.closest?.('[data-tip]');if(el)placeTip(el)});document.addEventListener('pointerout',e=>{const el=e.target.closest?.('[data-tip]');if(el&&!el.contains(e.relatedTarget))pop.classList.add('hidden')});document.addEventListener('focusin',e=>{const el=e.target.closest?.('[data-tip]');if(el)placeTip(el)});document.addEventListener('focusout',e=>{const el=e.target.closest?.('[data-tip]');if(el&&!el.contains(e.relatedTarget))pop.classList.add('hidden')});let tooltipCounter=0;document.addEventListener('click',e=>{const b=e.target.closest?.('.tooltip-btn');if(b){e.preventDefault();e.stopPropagation();const wasOpen=!pop.classList.contains('hidden')&&pop.dataset.source===b.dataset.helpId;pop.dataset.source=b.dataset.helpId||(b.dataset.helpId='help-'+(++tooltipCounter));wasOpen?pop.classList.add('hidden'):placeTip(b)}});
 </script></body></html>

@@ -248,7 +248,7 @@ const presets={halloween:{title:'Monster Dance',genre:'1960s novelty rock',norma
 Object.assign(presets,additionalPresets);
 function resetToBlank(){
   const fields={genreMode:'normal'};
-  $('[data-k]').forEach(el=>{
+  $$('[data-k]').forEach(el=>{
     const key=el.dataset.k;
     if(el.type==='checkbox'){fields[key]=false;return;}
     if(el.tagName==='SELECT'){

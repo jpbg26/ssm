@@ -193,13 +193,13 @@ function build(){let s=get();let gtext=s.genreMode==='holiday'?`${s.holiday} hol
 ].filter(Boolean);
 let st='';
 for(const part of styleParts){
-  const clean=part.replace(/\\s+/g,' ').trim().replace(/[.;,\\s]+$/,'');
+  const clean=part.replace(/\s+/g,' ').trim().replace(/[.;,\s]+$/,'');
   if(!clean)continue;
   const room=1000-st.length-(st?2:0);
   if(room<=0)break;
   if(clean.length<=room){st+=(st?'; ':'')+clean;continue;}
   // Avoid cutting words midstream; later, lower-priority details are dropped.
-  if(room>=35){const piece=clean.slice(0,room);const cut=piece.lastIndexOf(' ');if(cut>=room*0.6)st+=(st?'; ':'')+piece.slice(0,cut).replace(/[.;,\\s]+$/,'');}
+  if(room>=35){const piece=clean.slice(0,room);const cut=piece.lastIndexOf(' ');if(cut>=room*0.6)st+=(st?'; ':'')+piece.slice(0,cut).replace(/[.;,\s]+$/,'');}
 }
 st=st.slice(0,1000);
 let ly=[

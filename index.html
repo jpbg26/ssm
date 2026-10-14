@@ -250,7 +250,7 @@ function randomizeSection(button){
   if(!panel)return;
   const pick=items=>items[Math.floor(Math.random()*items.length)];
   const randomOption=el=>{
-    const choices=[...el.options].filter(o=>!o.disabled&&o.value&&!/^auto(?:\\b|\\s|\\/)/i.test(o.value)&&!/let llm decide/i.test(o.value));
+    const choices=[...el.options].filter(o=>!o.disabled&&o.value&&!o.value.toLowerCase().startsWith('auto')&&!/let llm decide/i.test(o.value));
     if(choices.length)el.value=pick(choices).value;
   };
   if(button.dataset.randomSection==='music'){

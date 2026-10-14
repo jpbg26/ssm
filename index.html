@@ -215,13 +215,13 @@ function build(){let s=get();let gtext=s.genreMode==='holiday'?`${s.holiday} hol
 if(s.genreMode==='holiday'){
   // Holiday style used to be a long instruction paragraph. Retain the strongest sonic cues.
   const raw=(HOLIDAYS[s.holiday]||HOLIDAYS['Other celebration'])
-    .replace(/^MANDATORY[^:]*:\\s*/i,'')
-    .replace(/\\b(prominent|respectful|characteristic)\\s+/gi,'');
-  const cues=raw.split(/,|\\band\\b/).map(x=>x.trim()).filter(Boolean);
+    .replace(/^MANDATORY[^:]*:\s*/i,'')
+    .replace(/\b(prominent|respectful|characteristic)\s+/gi,'');
+  const cues=raw.split(/,|\band\b/).map(x=>x.trim()).filter(Boolean);
   holidayStyle=s.holiday+': '+cues.slice(0,3).join(', ');
 }
 const briefTempo=tempoRanges[s.tempo]?s.tempo.split(' / ')[0]+' '+tempoRanges[s.tempo].join('–')+' BPM':s.tempo;
-const compact=v=>String(v||'').replace(/\\s+/g,' ').trim().replace(/[.;,\\s]+$/,'');
+const compact=v=>String(v||'').replace(/\s+/g,' ').trim().replace(/[.;,\s]+$/,'');
 const styleParts=[
   holidayStyle,
   gtext,

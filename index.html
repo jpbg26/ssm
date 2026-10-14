@@ -253,7 +253,7 @@ document.querySelectorAll('input[data-k^="tech_"], #instrumentChoices input').fo
   help.setAttribute('aria-label','Explain '+label.textContent.trim()+': '+tip);
   help.title=tip;
   help.addEventListener('pointerdown',e=>e.stopPropagation());
-  help.addEventListener('click',e=>e.stopPropagation());
+  // The delegated handler prevents label activation and toggles this help popup.
   label.append(help);
 });
 document.querySelectorAll('.mode-selector label').forEach(label=>{

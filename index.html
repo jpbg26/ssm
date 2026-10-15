@@ -414,8 +414,8 @@ s.lyricInstructions.trim()?'Additional instructions: '+s.lyricInstructions.trim(
 ].filter(Boolean).join('\n');// The Suno Exclude field has a tight character budget; use instrument names only.
 const HOLIDAY_EXCLUDE_LIMIT=50;
 const shortInstrument=label=>{
-  const stripped=label.replace(/^(?:Gothic|Detuned|Eerie|Ghostly|Monster-dance|Nostalgic|Harvest|Rustic|Gathering|Warm|Autumn|Midnight|Celebratory|Sparkling|Disco|Firework|Hopeful|Sunrise|Renewal|Reflective|Uplifting|Romantic|Velvet|Soft|Heartfelt|Intimate|Spring|Resurrection|Bright|Joyful|Irish|Celtic|Festive|Parade|Triumphal|Klezmer|Candlelight|South Asian|Festival|Lion-dance|Ceremonial|Reverent|Elegiac|Working-song|Union|Roots-rock|Snowy|Cozy|Icy|Happy|Confetti|Party)\\s+/i,'');
-  return stripped.replace(/\\b(?:glimmer|sparkle|harmonies|melody|groove|celebration|sound)\\b/gi,'').replace(/\\s+/g,' ').trim().toLowerCase();
+  const stripped=label.replace(/^(?:Gothic|Detuned|Eerie|Ghostly|Monster-dance|Nostalgic|Harvest|Rustic|Gathering|Warm|Autumn|Midnight|Celebratory|Sparkling|Disco|Firework|Hopeful|Sunrise|Renewal|Reflective|Uplifting|Romantic|Velvet|Soft|Heartfelt|Intimate|Spring|Resurrection|Bright|Joyful|Irish|Celtic|Festive|Parade|Triumphal|Klezmer|Candlelight|South Asian|Festival|Lion-dance|Ceremonial|Reverent|Elegiac|Working-song|Union|Roots-rock|Snowy|Cozy|Icy|Happy|Confetti|Party)\s+/i,'');
+  return stripped.replace(/\b(?:glimmer|sparkle|harmonies|melody|groove|celebration|sound)\b/gi,'').replace(/\s+/g,' ').trim().toLowerCase();
 };
 const selectedSounds=activeHolidaySounds(s.holiday);
 const motifs=s.genreMode==='holiday'?(HOLIDAY_SOUND_MOTIFS[s.holiday]||HOLIDAY_SOUND_MOTIFS['Other celebration']):[];

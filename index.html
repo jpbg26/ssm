@@ -416,7 +416,7 @@ s.genreMode==='holiday'?[
 'Check that holiday identity is audible through arrangement, rhythm, instrumental motifs, recurring transitions and expressive delivery—not merely in the lyric subject. Vary tag direction by section: establish a motif in the intro, carry it subtly through verses, strengthen it in choruses, and give the outro a seasonal resolution. Keep tags bracketed, brief, non-sung and plausible for Suno; do not clutter every line with tags.',
 'Repeat the seasonal-tag audit and revise until the holiday identity, selected sounds, genre conventions and performance tags are coherent. Do not introduce unchecked holiday sounds as prominent features. Respect explicit instrument and exclusion choices. If a tag conflicts with them, rewrite or remove that tag. Do not add new song sections outside the selected song-length plan.',
 'Final holiday check: the same lyrics with holiday words removed should still suggest this holiday from the bracketed sonic directions. Output only final lyrics and an estimated runtime, not the audit, reasoning, or agent dialogue.'
-].join('\\n'):'',
+].join(String.fromCharCode(10)):'',
 'Goal: lyrics that feel deliberately written and performable by people, with emotionally credible choices and non-formulaic specifics. A prompt cannot guarantee human preference or how generated audio will sound.',
 s.lyricInstructions.trim()?'Additional instructions: '+s.lyricInstructions.trim():''
 ].filter(Boolean).join('\n');// The Suno Exclude field has a tight character budget; use instrument names only.

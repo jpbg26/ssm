@@ -630,7 +630,7 @@ function resetToBlank(){
   fields.theme='';
   set(fields);
 }
-$('input[data-k]:not([type="checkbox"]), textarea[data-k]').forEach(field=>{field.value='';});
+$$('input[data-k]:not([type="checkbox"]), textarea[data-k]').forEach(field=>{field.value='';});
 const presetBaseline=get();
 $$('[data-preset]').forEach(b=>b.onclick=()=>{
   if(b.dataset.preset==='blank')resetToBlank();
